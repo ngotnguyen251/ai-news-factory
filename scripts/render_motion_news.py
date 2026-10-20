@@ -93,7 +93,7 @@ for i,s in enumerate(segments):
 (ROOT/"motion_concat.txt").write_text("".join(f"file '{p.name}'\n" for p in clips),encoding="utf-8")
 subprocess.run(["ffmpeg","-hide_banner","-loglevel","error","-y","-f","concat","-safe","0",
     "-i",str(ROOT/"motion_concat.txt"),"-i",str(ROOT/"motion_voice.wav"),
-    "-vf","ass=output/motion_vi.ass","-c:v","libx264","-preset","veryfast","-crf","24",
+    "-c:v","libx264","-preset","veryfast","-crf","24",
     "-c:a","aac","-b:a","128k","-shortest","-movflags","+faststart",
     str(ROOT/"motion_news_review.mp4")],check=True)
 (ROOT/"motion_storyboard.json").write_text(json.dumps({"status":"REVIEW_REQUIRED","story":story["title"],
