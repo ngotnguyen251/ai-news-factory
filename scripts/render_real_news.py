@@ -33,10 +33,10 @@ def ass_time(t):
     cs=round(t*100);h,rem=divmod(cs,360000);m,rem=divmod(rem,6000);s,cs=divmod(rem,100)
     return f"{h}:{m:02}:{s:02}.{cs:02}"
 def ass_escape(t):
-    return t.replace("\\","\\\\").replace("{","").replace("}","")
+    return t.replace("{","").replace("}","")
 ass=["[Script Info]","ScriptType: v4.00+","PlayResX: 1080","PlayResY: 1920",
 "[V4+ Styles]","Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-"Style: Default,DejaVu Sans,47,&H00FFFFFF,&H0000FFFF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,3,1,2,70,70,320,1",
+"Style: Default,DejaVu Sans,36,&H00FFFFFF,&H0000FFFF,&H00000000,&H80000000,0,0,0,0,100,100,0,0,1,3,1,2,70,70,320,1",
 "[Events]","Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text"]
 for start,end,seg in timings:
     # Wrap Vietnamese at sensible boundaries for 9:16.
