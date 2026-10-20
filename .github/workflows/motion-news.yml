@@ -1,0 +1,31 @@
+name: AI Motion Typography News Preview
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  motion:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-voice.txt
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg espeak-ng libsndfile1 fonts-dejavu-core
+      - name: Install Python dependencies
+        run: python -m pip install -r requirements-voice.txt pillow
+      - name: Render motion typography news
+        run: python scripts/render_motion_news.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: motion-news-review
+          path: |
+            output/motion_news_review.mp4
+            output/motion_voice.wav
+            output/motion_vi.srt
+            output/motion_storyboard.json
+          if-no-files-found: error
