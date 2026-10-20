@@ -1,0 +1,31 @@
+name: France Real News Video - Editorial Review
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-voice.txt
+      - name: Install system tools
+        run: sudo apt-get update && sudo apt-get install -y espeak-ng libsndfile1 ffmpeg fonts-dejavu-core
+      - name: Install Kokoro
+        run: python -m pip install -r requirements-voice.txt
+      - name: Render sourced France news report
+        run: python scripts/render_real_news.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: france-real-news-review
+          path: |
+            output/france_news_review.mp4
+            output/france_voice.wav
+            output/france_vi.srt
+            output/sources.json
+          if-no-files-found: error
