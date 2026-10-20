@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:05,000
+Chào mừng đến với AI News Factory.
+
+2
+00:00:05,000 --> 00:00:12,000
+Đây là bản thử nghiệm hệ thống đọc tin bằng tiếng Anh.
+
+3
+00:00:12,000 --> 00:00:21,000
+Trước khi đăng tin thật, chúng tôi kiểm tra ngày tháng, nguồn gốc và bằng chứng.
+
+4
+00:00:21,000 --> 00:00:28,000
+Video sẽ có giọng đọc tiếng Anh và phụ đề tiếng Việt.
+
+5
+00:00:28,000 --> 00:00:32,000
+Cảm ơn bạn đã theo dõi.
