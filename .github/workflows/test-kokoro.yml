@@ -1,0 +1,31 @@
+name: Test Kokoro English Voice
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthesize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-voice.txt
+      - name: Install eSpeak NG
+        run: sudo apt-get update && sudo apt-get install -y espeak-ng libsndfile1
+      - name: Install Kokoro and audio dependencies
+        run: python -m pip install -r requirements-voice.txt
+      - name: Generate demo English narration
+        run: python scripts/kokoro_voice.py samples/demo_en.txt output/demo_voice.wav
+      - name: Package narration and subtitle reference
+        run: cp samples/demo_vi.srt output/demo_vi.srt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kokoro-voice-demo
+          path: |
+            output/demo_voice.wav
+            output/demo_vi.srt
+          if-no-files-found: error
