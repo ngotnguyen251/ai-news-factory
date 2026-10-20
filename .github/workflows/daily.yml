@@ -1,0 +1,20 @@
+name: Daily news candidate
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * *' # 19:00 Vietnam time (UTC+7)
+permissions:
+  contents: read
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/collect_news.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: news-candidates
+          path: output/candidates.json
