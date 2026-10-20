@@ -26,6 +26,5 @@ jobs:
           path: |
             output/motion_news_review.mp4
             output/motion_voice.wav
-            output/motion_vi.srt
             output/motion_storyboard.json
           if-no-files-found: error
