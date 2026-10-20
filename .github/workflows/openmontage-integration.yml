@@ -1,0 +1,31 @@
+name: OpenMontage Integration Audit
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install FFmpeg and Node
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          node --version
+      - name: Clone upstream OpenMontage
+        run: git clone --depth 1 https://github.com/calesthio/OpenMontage.git OpenMontage
+      - name: Install OpenMontage Python dependencies
+        run: python -m pip install -r OpenMontage/requirements.txt
+      - name: Discover OpenMontage tools and providers
+        run: python scripts/openmontage_probe.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: openmontage-capabilities
+          path: output/openmontage_probe.json
+          if-no-files-found: warn
