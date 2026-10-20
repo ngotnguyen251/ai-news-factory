@@ -1,0 +1,39 @@
+name: News Headline Video Preview
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-voice.txt
+      - name: Install tools
+        run: sudo apt-get update && sudo apt-get install -y espeak-ng libsndfile1 ffmpeg fonts-dejavu-core
+      - name: Install voice dependencies
+        run: python -m pip install -r requirements-voice.txt
+      - name: Collect current headlines
+        run: python scripts/collect_news.py
+      - name: Prepare review-only English narration
+        run: python scripts/prepare_news.py
+      - name: Synthesize voice
+        run: python scripts/kokoro_voice.py output/story_en.txt output/demo_voice.wav
+      - name: Render review preview
+        run: python scripts/render_demo.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: headline-preview-review-required
+          path: |
+            output/candidates.json
+            output/story.json
+            output/story_en.txt
+            output/demo_voice.wav
+            output/demo_news.mp4
+            output/demo_vi_timed.srt
+          if-no-files-found: error
